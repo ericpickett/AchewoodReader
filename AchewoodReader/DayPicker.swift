@@ -1,0 +1,65 @@
+//
+//  DayPicker.swift
+//  AchewoodReader
+//
+//  Created by eric on 2021/05/23.
+//
+
+import UIKit
+
+final class DayPicker: UIPickerView {
+	var days: [ComicDay] = [] {
+		didSet {
+			self.reloadAllComponents()
+		}
+	}
+	
+	var datePickerDelegate: DatePickerDelegate? = nil
+	
+	override init(frame: CGRect) {
+		super.init(frame: frame)
+		self.dataSource = self
+		self.delegate = self
+	}
+	
+	required init?(coder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
+	
+	func setPickerToDay(_ day: String) {
+		if let index = days.firstIndex(where: { $0.day == day }) {
+			self.selectRow(index, inComponent: 0, animated: false)
+		}
+	}
+}
+
+extension DayPicker: UIPickerViewDataSource {
+	func numberOfComponents(in pickerView: UIPickerView) -> Int {
+		return 1
+	}
+	
+	func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+		switch component {
+		case 0:
+			return days.count
+		default:
+			return 0
+		}
+	}
+}
+
+extension DayPicker: UIPickerViewDelegate {
+	func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+		switch component {
+		case 0:
+			return days[row].day
+		default:
+			return nil
+		}
+	}
+	
+	func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+		guard let pickerDelegate = datePickerDelegate else { return }
+		pickerDelegate.stoppedScrolling(row: row, type: .day)
+	}
+}
