@@ -21,8 +21,8 @@ class ComicCollectionViewController: UICollectionViewController {
 		self.collectionView.isPagingEnabled = true
     }
 	
-	override func viewWillAppear(_ animated: Bool) {
-		super.viewWillAppear(animated)
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
 		
 		let currentPageIndex = UserDefaults.standard.integer(forKey: currentPageKey)
 		self.collectionView.scrollToItem(at: IndexPath(row: currentPageIndex, section: 0), at: .centeredHorizontally, animated: false)
