@@ -19,9 +19,14 @@ class ComicCollectionViewController: UICollectionViewController {
         self.collectionView!.register(ComicCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
 		self.collectionView.backgroundColor = .systemGray
 		self.collectionView.isPagingEnabled = true
+    }
+	
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		
 		let currentPageIndex = UserDefaults.standard.integer(forKey: currentPageKey)
 		self.collectionView.scrollToItem(at: IndexPath(row: currentPageIndex, section: 0), at: .centeredHorizontally, animated: false)
-    }
+	}
 
     // MARK: UICollectionViewDataSource
 
